@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>안개꽃</title>
+    <script src = "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.5.1/chart.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+    <div class="container">
+
+            <div class=" col-md-12">
+              <canvas id = "myChart" width="100" height="50"></canvas>
+            </div>
+        </div>
+    </div>
+    <script>
+
+    $(function () {
+    var ctx = document.getElementById("myChart").getContext("2d");
+    // examine example_data.json for expected response data
+    var json_url = "angae.json";
+
+    // draw empty chart
+    var myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: [],
+            datasets: [
+                {
+                    label: "최고가격",
+                    fill: false,
+                    lineTension: 0.1,
+                    backgroundColor: "skyblue",
+                    borderColor: "skyblue"
+
+                },
+                {
+                    label: "최저가격",
+                    fill: false,
+                    lineTension: 0.1,
+                    backgroundColor: "pink",
+                    borderColor: "pink"
+
+                },
+                {
+                    label: "평균가격",
+                    fill: false,
+                    lineTension: 0.1,
+                    backgroundColor: "gray",
+                    borderColor: "gray"
+
+                }
+            ]
+        },
+        options: {
+            tooltips: {
+                mode: 'index',
+                intersect: false
+            },
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero:true
+                    }
+                }]
+            }
+        }
+    });
+
+    ajax_chart(myChart, json_url);
+
+    // function to update our chart
+    function ajax_chart(chart, url, data) {
+        var data = data || {};
+
+        $.getJSON(url, data).done(function(response) {
+            chart.data.labels = response.labels;
+            chart.data.datasets[0].data = response.data.max; // or you can iterate for multiple datasets
+            chart.data.datasets[1].data = response.data.min;
+            chart.data.datasets[2].data = response.data.avg;
+            chart.update(); // finally update our chart
+        });
+    }
+});
+
+    </script>
+</body>
+</html>
