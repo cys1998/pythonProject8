@@ -11,7 +11,7 @@
     <div class="container">
 
             <div class=" col-md-12">
-              <canvas id = "myChart" width="100" height="50"></canvas>
+              <canvas id = "myChart" width="700" height="400"></canvas>
             </div>
         </div>
     </div>
@@ -55,9 +55,10 @@
             ]
         },
         options: {
+            responsive:false,
             tooltips: {
                 mode: 'index',
-                intersect: false
+                intersect: false,
             },
             scales: {
                 yAxes: [{
@@ -72,7 +73,7 @@
     ajax_chart(myChart, json_url);
 
     // function to update our chart
-    function ajax_chart(chart, url, data) {
+    function ajax_chart(chart, url,data) {
         var data = data || {};
 
         $.getJSON(url, data).done(function(response) {
